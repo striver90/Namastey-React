@@ -1,50 +1,43 @@
- .logo img {
-    padding: 0;
-    margin: 0;
-    max-height: 40px;
-  }
-  .search{
-    width: 100%;
-    text-align:center;
+.header{
+  display: flex;
+  justify-content: space-between;
+  margin: 10px ;
+  border: 1px solid rgb(21, 11, 11);
+  background-color: black;
 }
 
-/* User icon */
-.avatar{  
-    overflow:hidden;
-  }
-  .user-icon{
-    position: absolute;
-    top: 5px;
-    right: 0px;
-    font-size:6px; 
-    float:right;
-    border-radius:4em;
-    border:1px solid skyblue;
-    height:6em; 
-    width:6em;  
-    font-size: 10px;
-    background:none;padding:0.1em; 
-  }
-  .user-icon::before{
-    content:" "; 
-    display:block;
-    height:2em;
-    width:2em;
-    background:skyblue;
-    position:relative; 
-    left:2em;
-    top:0.8em;
-    border-radius:2em;
-  }
-  .user-icon::after{
-    content:" "; 
-    display:block;
-    height:2em;
-    width:4em;
-    background:skyblue;
-    position:relative;
-    left:1em;
-    top:1em;
-    border-radius:2em 2em 0 0;
-  }
+.navItems>ul{
+  list-style-type: none;
+  display: flex;
   
+}
+
+.navItems>ul>li{
+  padding: 10px;
+  color: white;
+}
+
+.title{
+  padding: 10px;
+}
+
+.title>a>img{
+  border-radius: 40px;
+  padding: 5px;
+  width: 100px;
+}
+
+.card{
+  width : 200px;
+  border : 1px solid black;
+  padding : 10px;
+  margin: 10px;
+}
+
+.card>img{
+  width : 100%;
+}
+.resturant-list{
+  display: flex;
+  flex-wrap: wrap;
+}
