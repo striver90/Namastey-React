@@ -4,3 +4,28 @@ Why Virtual dom required?
 
   Reconciliation - it is an algorithmn that react uses to differentiate one tree frm another.It also determines what needs to change in ui and what not to change.
   Diff algorithm- It is a process to differentiate one tree frm another
+
+
+  ----------------------------------------------------------------------------------------------
+  Chapter-05::
+
+  NamedExport = it is used via import with a {} brackets
+  Default Export = without {} brackets.There can be only 1 default export in a file.
+  * export = If we want to import all exported objects then we will be using * in an import statement.
+
+  Note :: We can have  many functions in a file that can be exported.
+  If we want to export all , then use *.
+  If there are more than one export, then we need to import via {} brackets.
+
+  config.js usuage??
+  -> we will define all constants vaariables inside this files
+
+React Hooks:: Its a function at the end of the day whic is  defined inside a React library.
+which function inside react libray??? ===>>> Ans:: useState()
+It is used to define the state of a local varibale.
+
+Note:: React does not support two way data binding, like Angular framework does.
+So , to achieve two way data binding will make use of hooks i.e useState
+
+____________________________________________________________________________________________________________
+
