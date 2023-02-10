@@ -1,5 +1,6 @@
 import logo from "../../images/lets-eat-logo.jpg";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Title = () => {
   return (
@@ -11,12 +12,7 @@ const Title = () => {
   );
 };
 
-const loggedInUser = () => {
-  //API call
-  return false;
-};
-
-//const [isUserLoggedIn, setIsUserLoggedIn] = useState(true);
+//SPA - Single Page Application- On routing to differnt pages, it is not making a network call
 
 const Header = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
@@ -26,9 +22,15 @@ const Header = () => {
       <Title />
       <div className="navItems">
         <ul>
-          <li> Home </li>
-          <li> About </li>
-          <li> Contact </li>
+          <Link to="/" className="link">
+            <li> Home </li>
+          </Link>
+          <Link to="/about" className="link1">
+            <li> About </li>
+          </Link>
+          <Link to="/contact" className="link2">
+            <li> Contact </li>
+          </Link>
           <li> Cart </li>
         </ul>
       </div>

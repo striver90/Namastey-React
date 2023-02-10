@@ -10,8 +10,8 @@ const ResturantCard = ({
     <div className="card">
       <img src={IMG_CDN_URL + cloudinaryImageId} />
       <h2> {name}</h2>
-      <h2> {cuisines.join(", ")}</h2>
-      <h4> {lastMileTravelString}</h4>
+      <h3> {cuisines.join(", ")}</h3>
+      <h3> {lastMileTravelString}</h3>
     </div>
   );
 };

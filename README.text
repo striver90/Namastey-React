@@ -39,3 +39,16 @@ Why Virtual dom required?
 
   Reconciliation - it is an algorithmn that react uses to differentiate one tree frm another.It also determines what needs to change in ui and what not to change.
   Diff algorithm- It is a process to differentiate one tree frm another
+
+  =================================
+  Chapter-07:
+  There is a component -RouterProvider which is coming from react-router dom.
+
+  In root.render , we are rendering  AppLayout. Do we always want to render AppLayout?? NO!!!!
+
+  We want to render according to the path.
+  So, will do - 
+  root.render(<RouterProvider router = {appRouter}/>)
+
+
+  All the children will go into the Outlet according to the routes

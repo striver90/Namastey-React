@@ -1,7 +1,7 @@
-import { resturantList } from "../constants";
 import ResturantCard from "./ResturantCard";
 import { useState, useEffect } from "react";
 import Shimmer from "./ShimmerUI";
+import { Link } from "react-router-dom";
 
 function filterData(searchTxt, restaurants) {
   const filterData = restaurants.filter((restaurant) => {
@@ -47,14 +47,15 @@ const Body = () => {
 
   console.log("render");
 
-  //not rendering component (Early return)
-  if (!allRestaurants) return null;
+  if (!allRestaurants) {
+    return null;
+  }
 
-  if (filterRestaurants.length == 0)
-    return <h1>No Resturant match your filter!!!</h1>;
+  // if (filterRestaurants.length == 0)
+  //   return <h1>No Resturant match your filter!!!</h1>;
 
   //Conditional Rendering
-  return allRestaurants?.length == 0 ? (
+  return allRestaurants?.length === 0 ? (
     <Shimmer />
   ) : (
     <>
@@ -85,7 +86,16 @@ const Body = () => {
         {!hasError &&
           filterRestaurants.map((resturant) => {
             return (
-              <ResturantCard {...resturant.data} key={resturant.data.id} />
+              <Link
+                style={{
+                  textDecoration: "none",
+                  color: "black",
+                }}
+                to={"/resturants/" + resturant.data.id}
+                key={resturant.data.id}
+              >
+                <ResturantCard {...resturant.data} />
+              </Link>
             );
           })}
       </div>
