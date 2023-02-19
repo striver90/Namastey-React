@@ -2,47 +2,40 @@ import ResturantCard from "./ResturantCard";
 import { useState, useEffect } from "react";
 import Shimmer from "./ShimmerUI";
 import { Link } from "react-router-dom";
-
-function filterData(searchTxt, restaurants) {
-  const filterData = restaurants.filter((restaurant) => {
-    return restaurant.data?.name
-      .toLocaleLowerCase()
-      .includes(searchTxt.toLocaleLowerCase());
-  });
-  // if (filterData == "") {
-  //   console.log("Search Item Not Found!!!");
-  //   return restaurants;
-  // }
-  return filterData;
-}
+import { filterData } from "../utils/helper";
+import useOnline from "../utils/useOnline";
+import useRestaurant from "../utils/useRestaurant";
+import { useLocalStorage } from "../utils/useLocalStorage";
 
 const Body = () => {
-  //const searchTxt = "KFC";
-  const [searchInput, setSearchInput] = useState("");
+  const [searchText, setSearchText] = useLocalStorage("textList", "");
   const [filterRestaurants, setFilterRestaurants] = useState([]);
-  const [allRestaurants, setAllRestaurants] = useState([]);
-  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  //empty dependencies array=> only call once after render
-  // depdency array [searchInput]=> once after initial render + everytime after the searchInput state changes
+  const [allRestaurants] = useRestaurant(
+    setFilterRestaurants,
+    filterRestaurants
+  );
 
-  useEffect(() => {
-    //API call
-    getResturants();
-  }, []);
+  const online = useOnline();
 
-  async function getResturants() {
-    try {
-      const data = await fetch(
-        "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9715987&lng=77.5945627&page_type=DESKTOP_WEB_LISTING"
-      );
-      const json = await data.json();
-      console.log(json);
-      setAllRestaurants(json?.data?.cards[2]?.data?.data?.cards);
-      setFilterRestaurants(json?.data?.cards[2]?.data?.data?.cards);
-    } catch {
-      setHasError(true);
+  // use searchData function and set condition if data is empty show error message
+  const searchData = (searchText, restaurants) => {
+    if (searchText !== "") {
+      const data = filterData(searchText, restaurants);
+      setFilterRestaurants(data);
+      setErrorMessage("");
+      if (data.length === 0) {
+        setErrorMessage(`No match found for "${searchText}"`);
+      }
+    } else {
+      setErrorMessage("");
+      setFilterRestaurants(restaurants);
     }
+  };
+
+  if (!online) {
+    return <h1> 🔴 Offline!!.Please check your internet connection.</h1>;
   }
 
   console.log("render");
@@ -50,9 +43,6 @@ const Body = () => {
   if (!allRestaurants) {
     return null;
   }
-
-  // if (filterRestaurants.length == 0)
-  //   return <h1>No Resturant match your filter!!!</h1>;
 
   //Conditional Rendering
   return allRestaurants?.length === 0 ? (
@@ -63,41 +53,43 @@ const Body = () => {
         <input
           type="text"
           className="search-input"
-          placeholder="Search"
-          value={searchInput}
+          placeholder="Search a restaurant"
+          value={searchText}
+          // update the state variable searchText when we typing in input box
           onChange={(e) => {
-            setSearchInput(e.target.value);
+            setSearchText(e.target.value);
+            // when user will enter the data, it automatically called searchData function so it work same as when you click on Search button
+            searchData(e.target.value, allRestaurants);
           }}
         ></input>
         <button
           className="search-btn"
           onClick={() => {
-            //filter the search Text
-            const data = filterData(searchInput, allRestaurants);
-            // update the resturantlist.
-            setFilterRestaurants(data);
+            // user click on button searchData function is called
+            searchData(searchText, allRestaurants);
           }}
         >
           Search
         </button>
       </div>
 
+      {errorMessage && <div className="error-container">{errorMessage}</div>}
+
       <div className="resturant-list">
-        {!hasError &&
-          filterRestaurants.map((resturant) => {
-            return (
-              <Link
-                style={{
-                  textDecoration: "none",
-                  color: "black",
-                }}
-                to={"/resturants/" + resturant.data.id}
-                key={resturant.data.id}
-              >
-                <ResturantCard {...resturant.data} />
-              </Link>
-            );
-          })}
+        {filterRestaurants.map((resturant) => {
+          return (
+            <Link
+              style={{
+                textDecoration: "none",
+                color: "black",
+              }}
+              to={"/resturants/" + resturant.data.id}
+              key={resturant.data.id}
+            >
+              <ResturantCard {...resturant.data} />
+            </Link>
+          );
+        })}
       </div>
     </>
   );
